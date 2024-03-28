@@ -1,20 +1,16 @@
 # Segunda tarea de APA 2023: Manejo de números primos
 
-## Nom i cognoms
+##### Nom i cognoms: Ona Bonastre Martí
 
 ## Fichero `primos.py`
 
-- El alumno debe escribir el fichero `primos.py` que incorporará distintas funciones relacionadas con el manejo
-  de los números primos.
+- El alumno debe escribir el fichero `primos.py` que incorporará distintas funciones relacionadas con el manejo de los números primos.
 
-- El fichero debe incluir una cadena de documentación que incluirá el nombre del alumno y los tests unitarios
-  de las funciones incluidas.
+- El fichero debe incluir una cadena de documentación que incluirá el nombre del alumno y los tests unitarios de las funciones incluidas.
 
-- Cada función deberá incluir su propia cadena de documentación que indicará el cometido de la función, los
-  argumentos de la misma y la salida proporcionada.
+- Cada función deberá incluir su propia cadena de documentación que indicará el cometido de la función, los argumentos de la misma y la salida proporcionada.
 
-- Se valorará lo pythónico de la solución; en concreto, su claridad y sencillez, y el uso de los estándares marcados
-  por PEP-8. También se valorará su eficiencia computacional.
+- Se valorará lo pythónico de la solución; en concreto, su claridad y sencillez, y el uso de los estándares marcados por PEP-8. También se valorará su eficiencia computacional.
 
 ### Determinación de la *primalidad* y descomposición de un número en factores primos
 
@@ -26,32 +22,27 @@ Incluya en el fichero `primos.py` las tres funciones siguientes:
 
 ### Obtención del mínimo común múltiplo y el máximo común divisor
 
-Usando las tres funciones del apartado anterior (y cualquier otra que considere conveniente añadir), escriba otras
-dos que calculen el máximo común divisor y el mínimo común múltiplo de sus argumentos:
+Usando las tres funciones del apartado anterior (y cualquier otra que considere conveniente añadir), escriba otras dos que calculen el máximo común divisor y el mínimo común múltiplo de sus argumentos:
 
 - `mcm(numero1, numero2)`:  Devuelve el mínimo común múltiplo de sus argumentos.
 - `mcd(numero1, numero2)`:  Devuelve el máximo común divisor de sus argumentos.
 
 Estas dos funciones deben cumplir las condiciones siguientes:
 
-- Aunque se trate de una solución sub-óptima, en ambos casos deberá partirse de la descomposición en factores
-  primos de los argumentos usando las funciones del apartado anterior.
+- Aunque se trate de una solución sub-óptima, en ambos casos deberá partirse de la descomposición en factores  primos de los argumentos usando las funciones del apartado anterior.
 
-- Aunque también sea sub-óptimo desde el punto de vista de la programación, ninguna de las dos funciones puede
-  depender de la otra; cada una debe programarse por separado.
+- Aunque también sea sub-óptimo desde el punto de vista de la programación, ninguna de las dos funciones puede  depender de la otra; cada una debe programarse por separado.
 
 ### Obtención del mínimo común múltiplo y el máximo común divisor para un número arbitrario de argumentos
 
-Escriba las funciones `mcmN()` y `mcdN()`, que calculan el mínimo común múltiplo y el máximo común divisor para un
-número arbitrario de argumentos:
+Escriba las funciones `mcmN()` y `mcdN()`, que calculan el mínimo común múltiplo y el máximo común divisor para un número arbitrario de argumentos:
 
 - `mcm(*numeros)`:  Devuelve el mínimo común múltiplo de sus argumentos.
 - `mcd(*numeros)`:  Devuelve el máximo común divisor de sus argumentos.
 
 ### Tests unitarios
 
-La cadena de documentación del fichero debe incluir los tests unitarios de las cinco funciones. En concreto, deberán
-comprobarse las siguientes condiciones:
+La cadena de documentación del fichero debe incluir los tests unitarios de las cinco funciones. En concreto, deberán comprobarse las siguientes condiciones:
 
 - `esPrimo(numero)`:  Al ejecutar `[ numero for numero in range(2, 50) if esPrimo(numero) ]`, la salida debe ser
                       `[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]`.
@@ -66,19 +57,100 @@ comprobarse las siguientes condiciones:
 
 #### Ejecución de los tests unitarios
 
-Inserte a continuación una captura de pantalla que muestre el resultado de ejecutar el fichero `primos.py` con la opción
-*verbosa*, de manera que se muestre el resultado de la ejecución de los tests unitarios.
+Inserte a continuación una captura de pantalla que muestre el resultado de ejecutar el fichero `primos.py` con la opción *verbosa*, de manera que se muestre el resultado de la ejecución de los tests unitarios.
+
+![Tests unitarios](tests_unitarios.png)
 
 #### Código desarrollado
 
-Inserte a continuación el contenido del fichero `primos.py` usando los comandos necesarios para que se realice el
-realce sintáctico en Python del mismo.
+Inserte a continuación el contenido del fichero `primos.py` usando los comandos necesarios para que se realice el realce sintáctico en Python del mismo.
+
+```py
+def esPrimo(numero):
+    return numero > 1 and all(numero % n != 0 for n in range(2,numero))
+
+def primos(numero):
+    primos_encontrados = [n for n in range(2, numero) if esPrimo(n)]
+    return tuple(primos_encontrados)
+
+def descompon(numero):
+    factores = []
+    divisor = 2
+    while numero > 1:
+        if numero % divisor == 0 and esPrimo(divisor):
+            factores.append(divisor)
+            numero //= divisor
+        else:
+            divisor += 1
+    return tuple(factores)
+
+def mcm(numero1, numero2):
+    factores_numero1 = descompon(numero1)
+    factores_numero2 = descompon(numero2)
+
+    factores_comunes = set(factores_numero1) | set(factores_numero2)
+
+    mcm_resultado = 1
+    
+    for factor in factores_comunes:
+        exponente = max(factores_numero1.count(factor), factores_numero2.count(factor))
+        mcm_resultado *= factor ** exponente
+    
+    return mcm_resultado
+
+def mcd(numero1, numero2):
+    factores_numero1 = descompon(numero1)
+    factores_numero2 = descompon(numero2)
+    
+    factores_comunes = set(factores_numero1) & set(factores_numero2)
+    
+    mcd_resultado = 1
+    
+    for factor in factores_comunes:
+        exponente = min(factores_numero1.count(factor), factores_numero2.count(factor))
+        mcd_resultado *= factor ** exponente
+    
+    return mcd_resultado
+
+def mcmN(*numeros):
+    factores_numeros = [descompon(num) for num in numeros]
+    
+    factores_comunes = set()
+
+    for tupla in factores_numeros:
+        factores_comunes.update(tupla)
+
+    max_exponentes = {}
+    for factor in factores_comunes:
+        max_exponentes[factor] = max(tupla.count(factor) for tupla in factores_numeros)
+
+    mcm_resultado = 1
+    for factor, exponente in max_exponentes.items():
+        mcm_resultado *= factor ** exponente
+
+    return mcm_resultado
+
+def mcdN(*numeros):
+    factores_numeros = [descompon(num) for num in numeros]
+    
+    factores_comunes = set()
+
+    for tupla in factores_numeros:
+        factores_comunes.update(tupla)
+
+    min_exponentes = {}
+    for factor in factores_comunes:
+        min_exponentes[factor] = min(tupla.count(factor) for tupla in factores_numeros)
+
+    mcd_resultado = 1
+    for factor, exponente in min_exponentes.items():
+        mcd_resultado *= factor ** exponente
+
+    return mcd_resultado
+```
 
 #### Subida del resultado al repositorio GitHub ¿y *pull-request*?
 
-El fichero `primos.py`, la imagen con la ejecución de los tests unitarios y este mismo fichero, `README.md`, deberán
-subirse al repositorio GitHub mediante la orden `git push`. Si los profesores de la asignatura consiguen montar el
-sistema a tiempo, la entrega se formalizará realizando un *pull-request* al propietario del repositorio original.
+El fichero `primos.py`, la imagen con la ejecución de los tests unitarios y este mismo fichero, `README.md`, deberán subirse al repositorio GitHub mediante la orden `git push`. Si los profesores de la asignatura consiguen montar el sistema a tiempo, la entrega se formalizará realizando un *pull-request* al propietario del repositorio original.
 
-El fichero `README.md` deberá respetar las reglas de los ficheros Markdown y visualizarse correctamente en el repositorio,
-incluyendo la imagen con la ejecución de los tests unitarios y el realce sintáctico del código fuente insertado.
+El fichero `README.md` deberá respetar las reglas de los ficheros Markdown y visualizarse correctamente en el repositorio, incluyendo la imagen con la ejecución de los tests unitarios y el realce sintáctico del código fuente insertado.
