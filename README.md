@@ -59,7 +59,8 @@ La cadena de documentación del fichero debe incluir los tests unitarios de las 
 
 Inserte a continuación una captura de pantalla que muestre el resultado de ejecutar el fichero `primos.py` con la opción *verbosa*, de manera que se muestre el resultado de la ejecución de los tests unitarios.
 
-![Tests unitarios](tests_unitarios.png)
+![Tests unitarios](testU1.png)
+![Tests unitarios](testU2.png)
 
 #### Código desarrollado
 
@@ -67,13 +68,28 @@ Inserte a continuación el contenido del fichero `primos.py` usando los comandos
 
 ```py
 def esPrimo(numero):
+    """
+    torna si el número és primer o no
+    >>> [numero for numero in range(2, 50) if esPrimo(numero)]
+    [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]
+    """
     return numero > 1 and all(numero % n != 0 for n in range(2,numero))
 
 def primos(numero):
+    """
+    torna els nombres primers menors que l'argument
+    >>> primos (50)
+    (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47)
+    """
     primos_encontrados = [n for n in range(2, numero) if esPrimo(n)]
     return tuple(primos_encontrados)
 
 def descompon(numero):
+    """
+    torna la descomposició en nombres primers de l'argument
+    >>> descompon(36 * 175 * 143)
+    (2, 2, 3, 3, 5, 5, 7, 11, 13)
+    """
     factores = []
     divisor = 2
     while numero > 1:
@@ -85,6 +101,11 @@ def descompon(numero):
     return tuple(factores)
 
 def mcm(numero1, numero2):
+    """
+    torna el mínim comú múltiple de dos nombres
+    >>> mcm(90, 14)
+    630
+    """
     factores_numero1 = descompon(numero1)
     factores_numero2 = descompon(numero2)
 
@@ -99,6 +120,11 @@ def mcm(numero1, numero2):
     return mcm_resultado
 
 def mcd(numero1, numero2):
+    """
+    torna el màxim comú divisor de dos nombres
+    >>> mcd(924, 780)
+    12
+    """
     factores_numero1 = descompon(numero1)
     factores_numero2 = descompon(numero2)
     
@@ -113,6 +139,11 @@ def mcd(numero1, numero2):
     return mcd_resultado
 
 def mcmN(*numeros):
+    """
+    torna el mínim coú múltiple de tants nombres com es passin a l'argument
+    >>> mcmN(42, 60, 70, 63)
+    1260
+    """
     factores_numeros = [descompon(num) for num in numeros]
     
     factores_comunes = set()
@@ -131,6 +162,11 @@ def mcmN(*numeros):
     return mcm_resultado
 
 def mcdN(*numeros):
+    """
+    torna el màxim comú divisor de dos nombres
+    >>> mcdN(840, 630, 1050, 1470)
+    210
+    """
     factores_numeros = [descompon(num) for num in numeros]
     
     factores_comunes = set()
@@ -147,6 +183,10 @@ def mcdN(*numeros):
         mcd_resultado *= factor ** exponente
 
     return mcd_resultado
+
+if __name__ == "__main__":
+    import doctest 
+    doctest.testmod(verbose=True)
 ```
 
 #### Subida del resultado al repositorio GitHub ¿y *pull-request*?
