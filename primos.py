@@ -4,6 +4,7 @@ def esPrimo(numero):
     >>> [numero for numero in range(2, 50) if esPrimo(numero)]
     [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]
     """
+
     return numero > 1 and all(numero % n != 0 for n in range(2,numero))
 
 def primos(numero):
@@ -12,6 +13,7 @@ def primos(numero):
     >>> primos (50)
     (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47)
     """
+
     primos_encontrados = [n for n in range(2, numero) if esPrimo(n)]
     return tuple(primos_encontrados)
 
@@ -29,6 +31,7 @@ def descompon(numero):
     >>> descompon(36 * 175 * 143)
     (2, 2, 3, 3, 5, 5, 7, 11, 13)
     """
+
     factores = []
     divisor = 2
     while numero > 1:
@@ -45,6 +48,7 @@ def mcm(numero1, numero2):
     >>> mcm(90, 14)
     630
     """
+
     factores_numero1 = descompon(numero1)
     factores_numero2 = descompon(numero2)
 
@@ -64,6 +68,7 @@ def mcd(numero1, numero2):
     >>> mcd(924, 780)
     12
     """
+
     factores_numero1 = descompon(numero1)
     factores_numero2 = descompon(numero2)
     
@@ -83,6 +88,7 @@ def mcmN(*numeros):
     >>> mcmN(42, 60, 70, 63)
     1260
     """
+
     factores_numeros = [descompon(num) for num in numeros]
     
     factores_comunes = set()
@@ -106,6 +112,7 @@ def mcdN(*numeros):
     >>> mcdN(840, 630, 1050, 1470)
     210
     """
+    
     factores_numeros = [descompon(num) for num in numeros]
     
     factores_comunes = set()
