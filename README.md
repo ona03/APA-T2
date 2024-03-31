@@ -59,8 +59,10 @@ La cadena de documentación del fichero debe incluir los tests unitarios de las 
 
 Inserte a continuación una captura de pantalla que muestre el resultado de ejecutar el fichero `primos.py` con la opción *verbosa*, de manera que se muestre el resultado de la ejecución de los tests unitarios.
 
-![Tests unitarios](testU1.png)
-![Tests unitarios](testU2.png)
+<div style="text-align:center;">
+<img src="testU1.png" alt="Test3" width="300" height="310">
+<img src="testU2.png" alt="Test3" width="300" height="180">
+</div>
 
 #### Código desarrollado
 
