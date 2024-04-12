@@ -161,7 +161,7 @@ def mcmN(*numeros):
 
     max_exponentes = {}
     for factor in factores_comunes:
-        max_exponentes[factor] = max(tupla.count(factor) for tupla in factores_numeros)
+        max_exponentes[factor] = max(tupla.count(factor) for tupla in factores_numeros, key=lambda x: (x, -x))
 
     mcm_resultado = 1
     for factor, exponente in max_exponentes.items():
@@ -185,7 +185,7 @@ def mcdN(*numeros):
 
     min_exponentes = {}
     for factor in factores_comunes:
-        min_exponentes[factor] = min(tupla.count(factor) for tupla in factores_numeros)
+        min_exponentes[factor] = min(tupla.count(factor) for tupla in factores_numeros, key=lambda x: (x, -x))
 
     mcd_resultado = 1
     for factor, exponente in min_exponentes.items():
